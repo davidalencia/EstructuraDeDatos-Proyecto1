@@ -45,11 +45,11 @@ public class App {
       //imprimir
       texto = texto.mergeSort((a, b)->{
         a=a.trim().toLowerCase().replace("¿", "").replaceAll("á", "a")
-          .replaceAll("é", "e").replaceAll("í", "i").replaceAll("ó", "o")
-          .replaceAll("ú", "u");
+      	.replaceAll("é", "e").replaceAll("í", "i").replaceAll("ó", "o")
+	.replaceAll("ú", "u").replaceAll("ñ","n");
         b=b.trim().toLowerCase().replace("¿", "").replaceAll("á", "a")
           .replaceAll("é", "e").replaceAll("í", "i").replaceAll("ó", "o")
-          .replaceAll("ú", "u");
+	.replaceAll("ú", "u").replaceAll("ñ","n");
         return a.compareTo(b);
       });
 
