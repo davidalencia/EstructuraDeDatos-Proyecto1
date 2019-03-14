@@ -9,16 +9,31 @@ public class Banderas {
     private String fileToWrite;
     private Lista<String> archivos;
 
-    public Banderas(String[] args){
+    public Banderas(String[] args) throws Exception{
       archivos = new Lista<String>();
       for (int alfa=0; alfa<args.length; alfa++){
         if("-r".equals(args[alfa]))
           reversa = true;
-        else if("-o".equals(args[alfa]))
-          fileToWrite = args[++alfa];
-        else
+        else if("-o".equals(args[alfa])){
+          overwrite = true;
+          if((args.length-alfa)>1)
+            fileToWrite = args[++alfa];
+        }else
           archivos.agrega(args[alfa]);
       }
+
+      if(archivos.esVacia()||(overwrite&&fileToWrite==null))
+        throw new Exception("Argumentos insuficientes");
+    }
+
+    public boolean getReversa(){
+      return reversa;
+    }
+    public boolean getOverwrite(){
+      return overwrite;
+    }
+    public String getFileToWrite(){
+      return fileToWrite;
     }
 
     public Iterator getFileIterator(){
