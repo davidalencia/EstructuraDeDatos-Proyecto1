@@ -1,0 +1,15 @@
+package mx.unam.ciencias.edd.proyecto1;
+
+/**
+ * Hello world!
+ *
+ */
+public class App 
+{
+    public static void main( String[] args )
+    {
+	
+	if(args.length>0)
+        System.out.println("acabo");
+    }
+}
