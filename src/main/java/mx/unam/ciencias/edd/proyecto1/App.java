@@ -1,15 +1,26 @@
 package mx.unam.ciencias.edd.proyecto1;
 
 import java.util.Iterator;
+import java.util.Comparator;
 import java.io.InputStreamReader;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import mx.unam.ciencias.edd.Lista;
 import mx.unam.ciencias.edd.Coleccion;
 
 public class App {
+    private static class ComparaCadenas implements Comparator<String>{
+      public int compare(String a, String b){
+        return tratamiendo(a).compareTo(tratamiendo(b));
+      }
+      private static String tratamiendo(String a){
+        return a.trim().toLowerCase().replaceAll("¿", "").replaceAll("á", "a")
+          .replaceAll("é", "e").replaceAll("í", "i").replaceAll("ó", "o")
+          .replaceAll("ú", "u").replaceAll("ñ","n").replaceAll(" ", "");
+      }
+    }
+
     public static void main(String[] args){
       Banderas antonio;
       try{
@@ -18,62 +29,39 @@ public class App {
         System.out.println(e.getMessage());
         return;
       }
-      //cambiar por ARN
+
       Lista<String> texto = new Lista<>();
 
       //leer archivos
       Iterator i = antonio.getFileIterator();
       while(i.hasNext())
         try{
-          BufferedReader br = new BufferedReader(
-                                new FileReader((String )i.next()));
-          cargaBuffer(br, texto);
-          br.close();
-        }catch (Exception e) {
+          IOUtils.cargaAColeccion(new FileReader((String) i.next()), texto);
+        }catch (IOException e) {
           System.out.println("Algo ha fallado."+
           "\nPor favor asegurese de que todos los archivos existan.");
         }
 
       //leer entrada estandar
       try {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        if(br.ready())
-          cargaBuffer(br, texto);
-        br.close();
+        if(texto.esVacia())
+          IOUtils.cargaAColeccion(new InputStreamReader(System.in), texto);
       } catch(Exception e) {}
 
-      //imprimir
-      texto = texto.mergeSort((a, b)->{
-        a=a.trim().toLowerCase().replace("¿", "").replaceAll("á", "a")
-      	.replaceAll("é", "e").replaceAll("í", "i").replaceAll("ó", "o")
-	.replaceAll("ú", "u").replaceAll("ñ","n").replaceAll(" ", "");
-        b=b.trim().toLowerCase().replace("¿", "").replaceAll("á", "a")
-          .replaceAll("é", "e").replaceAll("í", "i").replaceAll("ó", "o")
-	.replaceAll("ú", "u").replaceAll("ñ","n").replaceAll(" ", "");
-        return a.compareTo(b);
-      });
+      //ordenar
+      texto = texto.mergeSort(new ComparaCadenas());
 
+      //out
       if(antonio.getOverwrite())
         try{
-          BufferedWriter bw = new BufferedWriter(
-                                    new FileWriter(antonio.getFileToWrite()));
-          for (String l: texto)
-            bw.write(l+"\n");
-          bw.close();
+          IOUtils.cargaABuffer(new FileWriter(antonio.getFileToWrite()), texto);
         }
-        catch (Exception e) {
-          String m = "Algo ha fallado al guardar "+antonio.getFileToWrite();
+        catch (IOException e) {
+          String m = "Algo ha fallado al guardar: "+antonio.getFileToWrite();
           System.out.println(m);
         }
       else
         for (String l: texto)
           System.out.println(l);
-    }
-
-    private static void
-    cargaBuffer(BufferedReader br, Coleccion c) throws Exception{
-      String l;
-      while((l=br.readLine())!=null)
-        c.agrega(l);
     }
 }
