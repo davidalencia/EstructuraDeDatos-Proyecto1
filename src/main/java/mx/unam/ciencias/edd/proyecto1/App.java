@@ -46,10 +46,10 @@ public class App {
       texto = texto.mergeSort((a, b)->{
         a=a.trim().toLowerCase().replace("¿", "").replaceAll("á", "a")
       	.replaceAll("é", "e").replaceAll("í", "i").replaceAll("ó", "o")
-	.replaceAll("ú", "u").replaceAll("ñ","n");
+	.replaceAll("ú", "u").replaceAll("ñ","n").replaceAll(" ", "");
         b=b.trim().toLowerCase().replace("¿", "").replaceAll("á", "a")
           .replaceAll("é", "e").replaceAll("í", "i").replaceAll("ó", "o")
-	.replaceAll("ú", "u").replaceAll("ñ","n");
+	.replaceAll("ú", "u").replaceAll("ñ","n").replaceAll(" ", "");
         return a.compareTo(b);
       });
 

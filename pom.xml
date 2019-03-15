@@ -6,11 +6,9 @@
 
   <groupId>mx.unam.ciencias.edd.proyecto1</groupId>
   <artifactId>Proyecto1</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.4</version>
 
   <name>Proyecto1</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -51,6 +49,13 @@
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
           <version>3.0.2</version>
+          <configuration>
+            <archive>
+              <manifest>
+                <mainClass>mx.unam.ciencias.edd.proyecto1.App</mainClass>
+              </manifest>
+            </archive>
+          </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-install-plugin</artifactId>
@@ -71,5 +76,6 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    <finalName>../sort</finalName>
   </build>
 </project>
