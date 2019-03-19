@@ -4,38 +4,67 @@ import java.util.Iterator;
 import mx.unam.ciencias.edd.Lista;
 
 public class Banderas {
-    private boolean reversa;
-    private boolean overwrite;
-    private String fileToWrite;
-    private Lista<String> archivos;
 
-    public Banderas(String[] args) throws Exception{
-      archivos = new Lista<String>();
-      for (int alfa=0; alfa<args.length; alfa++){
-        if("-r".equals(args[alfa]))
-          reversa = true;
-        else if("-o".equals(args[alfa])){
-          overwrite = true;
-          if((args.length-alfa)>1)
-            fileToWrite = args[++alfa];
-      	  else
-      	      throw new Exception("Argumentos insuficientes");
-        }else if(archivos.indiceDe(args[alfa])==-1)
-            archivos.agrega(args[alfa]);
-      }
-    }
+  public static class Bandera{
+    private String bandera;
+    private boolean valor;
+    private String arg;
+    private boolean usaArg;
 
-    public boolean getReversa(){
-      return reversa;
+    public Bandera(String bandera){
+      this.bandera = bandera;
+      arg = "";
     }
-    public boolean getOverwrite(){
-      return overwrite;
+    public Bandera(String bandera, boolean usaArg){
+      this.bandera = bandera;
+      this.usaArg = usaArg;
+      arg = "";
     }
-    public String getFileToWrite(){
-      return fileToWrite;
+    public String getArg(){
+      return arg;
+    }
+    public boolean getValor(){
+      return valor;
     }
 
-    public Iterator getFileIterator(){
-      return archivos.iterator();
+  }
+
+  Lista<String> args;
+  Lista<Bandera> banderas;
+
+  public Banderas(Bandera... banderas){
+    args = new Lista<String>();
+    this.banderas = new Lista<Bandera>();
+    for(Bandera bandera: banderas)
+      this.banderas.agrega(bandera);
+  }
+
+  public void analizar(String[] args){
+    for (int alfa=0; alfa<args.length; alfa++){
+      boolean agregar = true;
+      for(Bandera bandera: banderas)
+        if(args[alfa].equals("-"+bandera.bandera)){
+          agregar = false;
+          bandera.valor = true;
+          if(bandera.usaArg)
+            if((args.length-alfa)>1)
+              bandera.arg = args[++alfa];
+            else
+              throw new IllegalArgumentException("Argumentos insuficientes");
+        }
+      if(agregar)
+        this.args.agrega(args[alfa]);
     }
+  }
+
+  public Bandera getBandera(String b){
+    for(Bandera bandera: banderas)
+      if(bandera.bandera.equals(b))
+        return bandera;
+    return null;
+  }
+
+  public Iterator argsIterator(){
+    return args.iterator();
+  }
 }

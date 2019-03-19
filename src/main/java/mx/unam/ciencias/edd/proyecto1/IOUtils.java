@@ -14,8 +14,9 @@ public class IOUtils {
   public static void cargaAColeccion(Reader in, Coleccion c) throws IOException{
     BufferedReader br = new BufferedReader(in);
     String l;
-    while((l=br.readLine())!=null)
-      c.agrega(l);
+    if(br.ready())
+      while((l=br.readLine())!=null)
+        c.agrega(l);
     br.close();
   }
 

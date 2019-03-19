@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import mx.unam.ciencias.edd.Lista;
+import java.text.Normalizer;
 
 public class App {
 
@@ -15,16 +16,18 @@ public class App {
         return tratamiendo(a).compareTo(tratamiendo(b));
       }
       private static String tratamiendo(String a){
-        return a.trim().toLowerCase().replaceAll("¿", "").replaceAll("á", "a")
-          .replaceAll("é", "e").replaceAll("í", "i").replaceAll("ó", "o")
-          .replaceAll("ú", "u").replaceAll("ñ","n").replaceAll(" ", "");
+        return Normalizer.normalize(a, Normalizer.Form.NFKD)
+          .replaceAll("[^\\p{ASCII}]", "").trim()
+          .toLowerCase().replaceAll(" ", "");
       }
     }
 
     public static void main(String[] args){
-      Banderas antonio;
+      Banderas.Bandera o = new Banderas.Bandera("o", true);
+      Banderas.Bandera r = new Banderas.Bandera("r");
+      Banderas antonio = new Banderas(o, r);
       try{
-        antonio = new Banderas(args);
+        antonio.analizar(args);
       }catch (Exception e) {
         System.out.println(e.getMessage());
         return;
@@ -33,32 +36,35 @@ public class App {
       Lista<String> texto = new Lista<>();
 
       //leer archivos
-      Iterator i = antonio.getFileIterator();
+      Iterator i = antonio.argsIterator();
       while(i.hasNext())
         try{
           IOUtils.cargaAColeccion(new FileReader((String) i.next()), texto);
         }catch (IOException e) {
           System.out.println("Algo ha fallado."+
           "\nPor favor asegurese de que todos los archivos existan.");
+          return;
         }
 
       //leer entrada estandar
       try {
-        if(texto.esVacia())
-          IOUtils.cargaAColeccion(new InputStreamReader(System.in), texto);
+        IOUtils.cargaAColeccion(new InputStreamReader(System.in), texto);
       } catch(Exception e) {}
 
       //ordenar
       texto = texto.mergeSort(new ComparaCadenas());
 
+      //reversa
+      if(r.getValor())
+        texto = texto.reversa();
+
       //salida
-      if(antonio.getOverwrite())
+      if(o.getValor())
         try{
-          IOUtils.cargaABuffer(new FileWriter(antonio.getFileToWrite()), texto);
+          IOUtils.cargaABuffer(new FileWriter(o.getArg()), texto);
         }
         catch (IOException e) {
-          String m = "Algo ha fallado al guardar: "+antonio.getFileToWrite();
-          System.out.println(m);
+          System.out.println("Algo ha fallado al guardar: "+o.getArg());
         }
       else
         for (String l: texto)
