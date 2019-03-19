@@ -18,10 +18,10 @@ public class Banderas {
           overwrite = true;
           if((args.length-alfa)>1)
             fileToWrite = args[++alfa];
-	  else
-	      throw new Exception("Argumentos insuficientes");
-        }else
-          archivos.agrega(args[alfa]);
+      	  else
+      	      throw new Exception("Argumentos insuficientes");
+        }else if(archivos.indiceDe(args[alfa])==-1)
+            archivos.agrega(args[alfa]);
       }
     }
 

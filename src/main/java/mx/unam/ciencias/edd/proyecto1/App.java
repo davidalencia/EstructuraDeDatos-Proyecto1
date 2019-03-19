@@ -7,9 +7,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import mx.unam.ciencias.edd.Lista;
-import mx.unam.ciencias.edd.Coleccion;
 
 public class App {
+
     private static class ComparaCadenas implements Comparator<String>{
       public int compare(String a, String b){
         return tratamiendo(a).compareTo(tratamiendo(b));
@@ -51,7 +51,7 @@ public class App {
       //ordenar
       texto = texto.mergeSort(new ComparaCadenas());
 
-      //out
+      //salida
       if(antonio.getOverwrite())
         try{
           IOUtils.cargaABuffer(new FileWriter(antonio.getFileToWrite()), texto);

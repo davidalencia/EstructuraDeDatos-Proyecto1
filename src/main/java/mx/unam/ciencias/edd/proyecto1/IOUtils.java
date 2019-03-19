@@ -1,12 +1,12 @@
 package mx.unam.ciencias.edd.proyecto1;
 
-import mx.unam.ciencias.edd.Coleccion;
+import java.util.Iterator;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.Reader;
 import java.io.Writer;
 import java.io.IOException;
-import java.util.Iterator;
+import mx.unam.ciencias.edd.Coleccion;
 
 
 public class IOUtils {
@@ -19,11 +19,11 @@ public class IOUtils {
     br.close();
   }
 
-  public static void cargaABuffer(Writer in, Coleccion c) throws IOException{
-    BufferedWriter bw = new BufferedWriter(in);
+  public static void cargaABuffer(Writer out, Coleccion c) throws IOException{
+    BufferedWriter bw = new BufferedWriter(out);
     Iterator i = c.iterator();
     while(i.hasNext())
-      bw.write((String) i.next() + "\n");
+      bw.write((String) i.next().toString() + "\n");
     bw.close();
   }
 
