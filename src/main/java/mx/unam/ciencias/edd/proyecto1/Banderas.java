@@ -39,7 +39,10 @@ public class Banderas {
       this.banderas.agrega(bandera);
   }
 
-  public void analizar(String[] args){
+  public void analiza(String[] args){
+    this.args = new Lista<String>();
+    for(Bandera bandera: banderas)
+      bandera.valor = false;
     for (int alfa=0; alfa<args.length; alfa++){
       boolean agregar = true;
       for(Bandera bandera: banderas)
@@ -52,7 +55,7 @@ public class Banderas {
             else
               throw new IllegalArgumentException("Argumentos insuficientes");
         }
-      if(agregar)
+      if(agregar && this.args.indiceDe(args[alfa])==-1)
         this.args.agrega(args[alfa]);
     }
   }

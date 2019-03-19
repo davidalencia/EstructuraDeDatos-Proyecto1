@@ -27,7 +27,7 @@ public class App {
       Banderas.Bandera r = new Banderas.Bandera("r");
       Banderas antonio = new Banderas(o, r);
       try{
-        antonio.analizar(args);
+        antonio.analiza(args);
       }catch (Exception e) {
         System.out.println(e.getMessage());
         return;
