@@ -23,6 +23,7 @@ public class App {
     }
 
     public static void main(String[] args){
+      //analisis de cadenas
       Banderas.Bandera o = new Banderas.Bandera("o", true);
       Banderas.Bandera r = new Banderas.Bandera("r");
       Banderas antonio = new Banderas(o, r);
@@ -49,7 +50,7 @@ public class App {
       //leer entrada estandar
       try {
         IOUtils.cargaAColeccion(new InputStreamReader(System.in), texto);
-      } catch(Exception e) {}
+      } catch(IOException e) {}
 
       //ordenar
       texto = texto.mergeSort(new ComparaCadenas());
