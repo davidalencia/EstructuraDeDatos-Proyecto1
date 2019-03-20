@@ -6,8 +6,8 @@ import java.io.InputStreamReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import mx.unam.ciencias.edd.Lista;
 import java.text.Normalizer;
+import mx.unam.ciencias.edd.Lista;
 
 public class App {
 
