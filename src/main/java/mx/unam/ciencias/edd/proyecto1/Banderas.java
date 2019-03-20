@@ -103,10 +103,10 @@ public class Banderas {
   }
 
   /**
-  * Regresa un iterador de la lista de argumentos que fueron pasados sin contar
-  * banderas ni argumentos de las banderas.
-  * @return un iterador de la lista de argumentos.
-  */
+   * Regresa un iterador de la lista de argumentos que fueron pasados sin contar
+   * banderas ni argumentos de las banderas.
+   * @return un iterador de la lista de argumentos.
+   */
   public Iterator argsIterator(){
     return args.iterator();
   }
